@@ -1,5 +1,5 @@
 # Personal-Website
-Personal implementation of a Java backend webserver plus frontend HTML+CSS. You can visit it at http://pansomoisiaids.com
+Personal implementation of a Java backend webserver plus frontend HTML+CSS. You can visit it at http://panosmoisiadis.com
 
 The backend is written in Java and is an implementation of the HttpServer class along with extra custom components.
 
