@@ -1,7 +1,9 @@
 # Personal-Website
 Personal implementation of a Java backend webserver plus frontend HTML+CSS. You can visit it at http://panosmoisiadis.com
 
-The backend is written in Java and is an implementation of the HttpServer class along with extra custom components.
+The backend is written in Java and is an implementation of the [HttpServer class](https://docs.oracle.com/en/java/javase/16/docs/api/jdk.httpserver/com/sun/net/httpserver/HttpServer.html) along with extra custom components.
+
+You can view the JavaDoc of the backend at http://panosmoisiadis/docs
 
 ## Security
 
