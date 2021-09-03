@@ -42,6 +42,9 @@ public class Website {
 
     private static int IP_BLOCK_TIME;
 
+    /**
+     * Main. Initializes HTTP server
+     */
     public static void main(String[] args) {
         logger.info("Server startup");
         try {
@@ -159,43 +162,4 @@ public class Website {
             exchange.close();
         }
     }
-
-//    static class DocumentHandler implements HttpHandler {
-//        @Override
-//        public void handle(HttpExchange exchange) throws IOException {
-//            final String ip = exchange.getRemoteAddress().getAddress().getHostAddress();
-//
-//            logger.info("New document connection from: " + exchange.getRemoteAddress());
-//
-//            if (!exchange.getRequestMethod().equals("GET")) {
-//                logger.warning("Non-GET request sent to document.");
-//                HTTP.sendResponse(exchange, ResponseType.INVALID_REQUEST);
-//                return;
-//            }
-//
-//            final String requestedFile = exchange.getRequestURI().toString();
-//            final File file;
-//            if (requestedFile.equals("/docs")) {
-//                file = new File("docs/index.html");
-//            } else {
-//                file = new File("docs" + requestedFile);
-//            }
-//
-//
-//            if (!file.exists()) {
-//                logger.warning("Requested docs file (docs" + file.getAbsolutePath() + ") not found. File requested by: " + ip);
-//                HTTP.sendResponse(exchange, ResponseType.FILE_NOT_FOUND);
-//                return;
-//            }
-//
-//            Tika tika = new Tika();
-//            final String mimeType = tika.detect(file);
-//            exchange.getResponseHeaders().put("Content-Type", Collections.singletonList(mimeType));
-//            exchange.sendResponseHeaders(200, file.length());
-//            OutputStream os = exchange.getResponseBody();
-//            Files.copy(file.toPath(), os);
-//
-//            exchange.close();
-//        }
-//    }
 }
