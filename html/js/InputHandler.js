@@ -46,27 +46,41 @@ JFXgqhvUzf/KWXZGmGXhV9Lb/f4LgSPC5pRc7JOmdWCf06otm/kvDAZOjNBu
         encryptionKeys: publicKey
     });
 
-    const url = "http://panosmoisiadis.com/formsubmission/";
-    const request = new XMLHttpRequest();
-    request.open("POST", url);
-    request.setRequestHeader("Accept", "text/plain");
-    request.setRequestHeader("Content-Type", "text/plain");
+    const timeRequest = new XMLHttpRequest();
+    timeRequest.overrideMimeType("text/plain");
+    timeRequest.open("GET", "http://panosmoisiadis.com/block-time")
+    timeRequest.onreadystatechange = function() {
+        if (timeRequest.readyState === 4) {
+            const blocktime = Number(timeRequest.responseText)/60000;
+            const url = "http://panosmoisiadis.com/formsubmission/";
+            const request = new XMLHttpRequest();
+            request.overrideMimeType("application/octet-stream");
+            request.open("POST", url);
+            request.setRequestHeader("Accept", "text/plain");
+            request.setRequestHeader("Content-Type", "text/plain");
 
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                alert("Message sent successfully.");
-                document.getElementById("userName").value = "";
-                document.getElementById("returnEmail").value = "";
-                document.getElementById("userMessage").value = "";
-            } else if (request.status === 429) {
-                alert("Too many messages sent recently. Only one submission is permitted per minute. Please wait and try again later.");
-            } else {
-                alert("Error sending message.");
-            }
-            console.log(request.responseText);
+            request.onreadystatechange = function () {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        alert("Message sent successfully.");
+                        document.getElementById("userName").value = "";
+                        document.getElementById("returnEmail").value = "";
+                        document.getElementById("userMessage").value = "";
+                    } else if (request.status === 429) {
+                        if (blocktime === 1) {
+                            alert("Too many messages sent recently. Only one submission is permitted every minute. Please wait and try again later.");
+                        } else {
+                            alert("Too many messages sent recently. Only one submission is permitted every " + blocktime + " minutes. Please wait and try again later.");
+                        }
+                    } else {
+                        alert("Error sending message.");
+                    }
+                    console.log(request.responseText);
+                }
+            };
+
+            request.send(encrypted);
         }
-    };
-
-    request.send(encrypted);
+    }
+    timeRequest.send();
 }
