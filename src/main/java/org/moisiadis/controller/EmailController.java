@@ -1,4 +1,11 @@
-package org.moisiadis.website.email;
+package org.moisiadis.controller;
+
+import org.moisiadis.Main;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -6,30 +13,33 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashSet;
 import java.util.Properties;
 
-/**
- * Class to send email
- */
-public class Email implements Runnable {
-    private final String SMTPUsername, SMTPPassword, messageBody;
+@RestController
+public class EmailController {
 
-    /**
-     * Creates new Email
-     * @param SMTPUsername Username of SMTP server
-     * @param SMTPPassword Password of SMTP server
-     * @param messageBody Body of email
-     */
-    public Email(final String SMTPUsername, final String SMTPPassword, final String messageBody) {
-        this.SMTPUsername = SMTPUsername;
-        this.SMTPPassword = SMTPPassword;
-        this.messageBody = messageBody;
-    }
+    private HashSet<String> ip = new HashSet<String>();
+    private final String SMTPUsername = Main.getSMTPUsername(), SMTPPassword = Main.getSMTPPassword();
+    private final int IP_BLOCK_TIME = Main.getBlockTime();
 
-    /**
-     * Sends the email in a thread
-     */
-    public void run() {
+    @PostMapping("/formsubmission")
+    public ResponseEntity<Object> sendEmail(@RequestBody String messageBody, HttpServletRequest request) {
+        String ipAddress = request.getRemoteAddr();
+        if (ip.contains(ipAddress)) {
+            return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
+        }
+        ip.add(ipAddress);
+        Thread thread = new Thread(() -> {
+            try {
+                Thread.sleep(IP_BLOCK_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ip.remove(ipAddress);
+        });
+        thread.start();
         Properties properties = System.getProperties();
         properties.put("mail.transport.protocol", "smtp");
         properties.put("mail.smtp.port", 587);
@@ -54,5 +64,6 @@ public class Email implements Runnable {
             messagingException.printStackTrace();
             System.exit(1);
         }
+        return null;
     }
 }

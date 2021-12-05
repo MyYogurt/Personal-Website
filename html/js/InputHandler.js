@@ -2,6 +2,10 @@ async function sendInput() {
     const userName = document.getElementById("userName").value;
     const returnEmail = document.getElementById("returnEmail").value;
     const userMessage = document.getElementById("userMessage").value;
+    if (userName === "" && returnEmail === "" && userMessage === "") {
+        alert("Fields must be filled in.");
+        return;
+    }
     const message = "NAME: " + userName + "\n\nRETURN EMAIL: " + returnEmail + "\n\nMESSAGE: " + userMessage;
 
     const publicKeyArmored = `-----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -46,41 +50,81 @@ JFXgqhvUzf/KWXZGmGXhV9Lb/f4LgSPC5pRc7JOmdWCf06otm/kvDAZOjNBu
         encryptionKeys: publicKey
     });
 
-    const timeRequest = new XMLHttpRequest();
-    timeRequest.overrideMimeType("text/plain");
-    timeRequest.open("GET", "http://panosmoisiadis.com/block-time")
-    timeRequest.onreadystatechange = function() {
-        if (timeRequest.readyState === 4) {
-            const blocktime = Number(timeRequest.responseText)/60000;
-            const url = "http://panosmoisiadis.com/formsubmission/";
-            const request = new XMLHttpRequest();
-            request.overrideMimeType("application/octet-stream");
-            request.open("POST", url);
-            request.setRequestHeader("Accept", "text/plain");
-            request.setRequestHeader("Content-Type", "text/plain");
-
-            request.onreadystatechange = function () {
-                if (request.readyState === 4) {
-                    if (request.status === 200) {
-                        alert("Message sent successfully.");
-                        document.getElementById("userName").value = "";
-                        document.getElementById("returnEmail").value = "";
-                        document.getElementById("userMessage").value = "";
-                    } else if (request.status === 429) {
-                        if (blocktime === 1) {
-                            alert("Too many messages sent recently. Only one submission is permitted every minute. Please wait and try again later.");
+    let blockTime;
+    let blockTimeRequest = new XMLHttpRequest();
+    blockTimeRequest.overrideMimeType("text/plain");
+    blockTimeRequest.open("GET", "https://www.panosmoisiadis.com/api/block-time");
+    blockTimeRequest.onreadystatechange = function() {
+        if (blockTimeRequest.readyState === 4) {
+            if (blockTimeRequest.status === 200) {
+                blockTime = Number(blockTimeRequest.responseText)/60000;
+            } else {
+                blockTimeRequest = new XMLHttpRequest();
+                blockTimeRequest.overrideMimeType("text/plain");
+                blockTimeRequest.open("GET", "https://panosmoisiadis.com/api/block-time");
+                blockTimeRequest.onreadystatechange = function() {
+                    if (blockTimeRequest.readyState === 4) {
+                        if (blockTimeRequest.status === 200) {
+                            blockTime = Number(blockTimeRequest.responseText)/60000;
                         } else {
-                            alert("Too many messages sent recently. Only one submission is permitted every " + blocktime + " minutes. Please wait and try again later.");
+                            alert("Error sending message");
                         }
-                    } else {
-                        alert("Error sending message.");
                     }
-                    console.log(request.responseText);
                 }
-            };
-
-            request.send(encrypted);
+                blockTimeRequest.send();
+            }
         }
     }
-    timeRequest.send();
+    blockTimeRequest.send();
+
+    if (blockTime) {
+        alert("Error sending message");
+        return;
+    }
+
+    let formSubmissionRequest = new XMLHttpRequest();
+    formSubmissionRequest.overrideMimeType("application/octet-stream");
+    formSubmissionRequest.open("POST", "https://www.panosmoisiadis.com/api/formsubmission/");
+    formSubmissionRequest.setRequestHeader("Accept", "text/plain");
+    formSubmissionRequest.setRequestHeader("Content-Type", "text/plain");
+    formSubmissionRequest.onreadystatechange = function() {
+        if (formSubmissionRequest.readyState === 4) {
+            if (formSubmissionRequest.status === 200) {
+                document.getElementById("userName").value = "";
+                document.getElementById("returnEmail").value = "";
+                document.getElementById("userMessage").value = "";
+                alert("Message sent successfully.");
+            } else if (formSubmissionRequest.status === 429) {
+                if (blockTime === 1) {
+                    alert("Too many messages sent recently. Only one submission is permitted every minute. Please wait and try again later.");
+                } else {
+                    alert("Too many messages sent recently. Only one submission is permitted every " + blockTime + " minutes. Please wait and try again later.");
+                }
+            } else {
+                formSubmissionRequest = new XMLHttpRequest();
+                formSubmissionRequest.overrideMimeType("text/plain");
+                formSubmissionRequest.open("POST", "https://panosmoisiadis.com/api/formsubmission/");
+                formSubmissionRequest.onreadystatechange = function() {
+                    if (formSubmissionRequest.readyState === 4) {
+                        if (formSubmissionRequest.status === 200) {
+                            document.getElementById("userName").value = "";
+                            document.getElementById("returnEmail").value = "";
+                            document.getElementById("userMessage").value = "";
+                            alert("Message sent successfully.");
+                        } else if (formSubmissionRequest.status === 429) {
+                            if (blockTime === 1) {
+                                alert("Too many messages sent recently. Only one submission is permitted every minute. Please wait and try again later.");
+                            } else {
+                                alert("Too many messages sent recently. Only one submission is permitted every " + blockTime + " minutes. Please wait and try again later.");
+                            }
+                        } else {
+                            alert("Error sending message");
+                        }
+                    }
+                }
+                formSubmissionRequest.send(encrypted);
+            }
+        }
+    }
+    formSubmissionRequest.send(encrypted);
 }

@@ -1,4 +1,4 @@
-package org.moisiadis.website.util;
+package org.moisiadis;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -11,9 +11,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Class for IO actions
- */
 public class XMLReader {
     private final Document document;
 
@@ -21,6 +18,12 @@ public class XMLReader {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         document = documentBuilder.parse(new File(path));
+    }
+
+    public XMLReader(final File file) throws IOException, SAXException, ParserConfigurationException {
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        document = documentBuilder.parse(file);
     }
 
     public NodeList getElementsByName(final String name) {
