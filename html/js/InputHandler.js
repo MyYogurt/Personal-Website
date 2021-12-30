@@ -50,28 +50,19 @@ JFXgqhvUzf/KWXZGmGXhV9Lb/f4LgSPC5pRc7JOmdWCf06otm/kvDAZOjNBu
         encryptionKeys: publicKey
     });
 
+    const www = document.URL.includes("www");
+
     let blockTime;
     let blockTimeRequest = new XMLHttpRequest();
+    let blockURL = (www) ? "https://www.panosmoisiadis.com/api/block-time" : "https://panosmoisiadis.com/api/block-time";
     blockTimeRequest.overrideMimeType("text/plain");
-    blockTimeRequest.open("GET", "https://www.panosmoisiadis.com/api/block-time");
+    blockTimeRequest.open("GET", blockURL);
     blockTimeRequest.onreadystatechange = function() {
         if (blockTimeRequest.readyState === 4) {
             if (blockTimeRequest.status === 200) {
                 blockTime = Number(blockTimeRequest.responseText)/60000;
             } else {
-                blockTimeRequest = new XMLHttpRequest();
-                blockTimeRequest.overrideMimeType("text/plain");
-                blockTimeRequest.open("GET", "https://panosmoisiadis.com/api/block-time");
-                blockTimeRequest.onreadystatechange = function() {
-                    if (blockTimeRequest.readyState === 4) {
-                        if (blockTimeRequest.status === 200) {
-                            blockTime = Number(blockTimeRequest.responseText)/60000;
-                        } else {
-                            alert("Error sending message");
-                        }
-                    }
-                }
-                blockTimeRequest.send();
+                alert("Error sending message");
             }
         }
     }
@@ -83,10 +74,9 @@ JFXgqhvUzf/KWXZGmGXhV9Lb/f4LgSPC5pRc7JOmdWCf06otm/kvDAZOjNBu
     }
 
     let formSubmissionRequest = new XMLHttpRequest();
-    formSubmissionRequest.overrideMimeType("application/octet-stream");
-    formSubmissionRequest.open("POST", "https://www.panosmoisiadis.com/api/formsubmission/");
-    formSubmissionRequest.setRequestHeader("Accept", "text/plain");
-    formSubmissionRequest.setRequestHeader("Content-Type", "text/plain");
+    let formURL = (www) ? "https://www.panosmoisiadis.com/api/formsubmission/" : "https://panosmoisiadis.com/api/formsubmission/";
+    formSubmissionRequest.overrideMimeType("text/plain");
+    formSubmissionRequest.open("POST", formURL);
     formSubmissionRequest.onreadystatechange = function() {
         if (formSubmissionRequest.readyState === 4) {
             if (formSubmissionRequest.status === 200) {
@@ -101,28 +91,7 @@ JFXgqhvUzf/KWXZGmGXhV9Lb/f4LgSPC5pRc7JOmdWCf06otm/kvDAZOjNBu
                     alert("Too many messages sent recently. Only one submission is permitted every " + blockTime + " minutes. Please wait and try again later.");
                 }
             } else {
-                formSubmissionRequest = new XMLHttpRequest();
-                formSubmissionRequest.overrideMimeType("text/plain");
-                formSubmissionRequest.open("POST", "https://panosmoisiadis.com/api/formsubmission/");
-                formSubmissionRequest.onreadystatechange = function() {
-                    if (formSubmissionRequest.readyState === 4) {
-                        if (formSubmissionRequest.status === 200) {
-                            document.getElementById("userName").value = "";
-                            document.getElementById("returnEmail").value = "";
-                            document.getElementById("userMessage").value = "";
-                            alert("Message sent successfully.");
-                        } else if (formSubmissionRequest.status === 429) {
-                            if (blockTime === 1) {
-                                alert("Too many messages sent recently. Only one submission is permitted every minute. Please wait and try again later.");
-                            } else {
-                                alert("Too many messages sent recently. Only one submission is permitted every " + blockTime + " minutes. Please wait and try again later.");
-                            }
-                        } else {
-                            alert("Error sending message");
-                        }
-                    }
-                }
-                formSubmissionRequest.send(encrypted);
+                alert("Error sending message");
             }
         }
     }

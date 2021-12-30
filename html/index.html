@@ -11,37 +11,57 @@ Made by Panos Moisiadis-->
     <link rel="stylesheet" href="styles.css">
     <title>Panos Moisiadis</title>
 </head>
-<div class="external">
-    <div class="middle">
-        <div class="internal">
-            <div class="center">
-                <h1>Panos Moisiadis</h1>
-                <h3>Sophomore at the University of Pittsburgh. Computer Science Major.</h3>
-                <a target="_blank" href="https://www.github.com/MyYogurt">
-                    <img alt="Github" src="assets/github-logo.png" width="53" height="53">
-                </a>
-                <a target="_blank" href="https://www.linkedin.com/in/panagiotis-moisiadis-076076165/">
-                    <img alt="LinkedIn" src="assets/linkedin-logo.png" width="53" height="53">
-                </a>
-                <br><br>
-                <iframe src="https://onedrive.live.com/embed?cid=0EC03A77166AB9B2&resid=EC03A77166AB9B2%212565&authkey=ANpxj_ZYk1ezaCY&em=2" width="600" height="365" frameborder="0" scrolling="no"></iframe>
-                <br><br>
-                <body>My email: <a href="mailto:panosmoisiadis@pm.me">panosmoisiadis@pm.me</a></body>
-                <br><br>
-                <body>My public key can be found <a href="public-key/index.html">here</a>.</body>
-                <br><br>
-                <body>Contact Me! All submissions are encrypted with PGP.</body>
-                <br><br>
-                <label for="userName">Name: </label><input type="text" id="userName">
-                <label for="returnEmail">Return email: </label><input type="text" id="returnEmail">
-                <label for="userMessage">Your Message: </label><input type="text" id="userMessage">
-                <button onclick="sendInput()">Send Message</button>
-                <br><br>
-                <body>You can check out the JavaDoc for the backend of this website <a target="_blank" href="https://www.panosmoisiadis.com/docs/index.html">here</a>.</body>
-                <br><br>
-                <body>The backend of this website uses Apache to serve static content as well as serve as a reverse proxy for Spring Boot microservices.</body>
-            </div>
-        </div>
-    </div>
+<h1>Panos Moisiadis</h1>
+<h3>Sophomore Computer Science Major at the University of Pittsburgh</h3>
+<table>
+    <tr>
+        <th>
+            <a target="_blank" href="https://.github.com/MyYogurt">
+                <img alt="Github" src="assets/github-logo.png" width="64" height="64">
+            </a>
+        </th>
+        <th>
+            <a target="_blank" href="https://www.linkedin.com/in/panagiotis-moisiadis-076076165/">
+                <img alt="LinkedIn" src="assets/linkedin-logo.png" width="64" height="64">
+            </a>
+        </th>
+        <th>
+            <a href="mailto:panosmoisiadis@pm.me"><img alt="email" src="assets/email-logo.svg" width="64"
+                                                       height="64"></a>
+        </th>
+    </tr>
+</table>
+<br>
+<div class="iframe-container">
+    <iframe src="assets/Resume.pdf"></iframe>
 </div>
+<a target="_blank" href="assets/Resume.pdf">Open resume in new tab</a>
+<br>
+<form action="#" onsubmit="sendInput(); return false" id="contactForm">
+    <body>Contact Me! All submissions are encrypted with PGP.</body>
+    <table class="gray_background" style="border: 1px solid black;">
+        <tr>
+            <th><label for="userName">Name: </label></th>
+            <th><input type="text" id="userName" required></th>
+        </tr>
+        <tr>
+            <th><label for="returnEmail">Return email: </label></th>
+            <th><input type="email" id="returnEmail" required></th>
+        </tr>
+        <tr>
+            <th><label for="userMessage">Your Message: </label></th>
+            <th><textarea rows="5" id="userMessage" required></textarea></th>
+        </tr>
+    </table>
+    <input type="submit" value="Submit"/>
+</form>
+<body>My public key can be found <a href="public-key/index.html">here</a>.</body>
+<br>
+<body>You can check out the JavaDoc for the backend of this website <a target="_blank"
+                                                                       href="https://panosmoisiadis.com/docs/index.html">here</a>.
+</body>
+<br>
+<body>The backend of this website uses Apache to serve static content as well as serve as a reverse proxy for Spring
+Boot microservices.
+</body>
 </html>
