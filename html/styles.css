@@ -1,29 +1,94 @@
-html {
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+body{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: lavenderblush;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.card{
+    width: 200px;
+    overflow: hidden;
+    background-color: #ffffff;
+
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    display: table;
-    position: relative;
+    -webkit-transition: .1s ease-in-out;
+    transition: .1s ease-in-out;
+}
+.card:first-of-type{
+    margin-right: 25px;
 }
 
-table {
-    width: auto;
-    margin-left: auto;
-    margin-right: auto;
+.card:hover{
+    margin-top: -10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
-
-.iframe-container {
-    max-width: 100%;
-    padding-top: 75%;
-    position: relative;
+.banner{
+    height: 100px;
     width: 100%;
-    padding-bottom: 10px;
+    padding-top: 30px;
+    background-color: #FAFAFA;
+    background-size: cover;
+    background-position: center;
+}
+.card .banner{
+    background-color: #2ab1ce;
+}
+.avatar{
+    height: 100px;
+    width: 100px;
+    margin: auto;
+    background-size: cover;
+    background-position: center;
+    background-color: #F1F1F1;
+    border-radius: 100%;
+}
+.card .avatar{
+    background-image: url("favicon.ico");
 }
 
-.iframe-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+h3, a, i{
+    font-family: 'Roboto', sans-serif;
+    font-weight: lighter;
+    -webkit-transition: .1s ease-in-out;
+    transition: .1s ease-in-out;
+}
+h3{
+    margin-top: 45px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: #212121;
+}
+a {
+    display: block;
+    padding: 5px 0px;
+    font-size: 14px;
+    color: #9E9E9E;
+    text-decoration: none;
+}
+a:hover{
+    background-color: #FAFAFA;
+    color: inherit;
+}
+ul {
+    margin-top: 10px;
+    padding: 15px 0px;
+    background-color: #FAFAFA;
+}
+ul a{
+    display: inline;
+    margin-right: 10px;
+}
+ul a i:hover{
+    transform: scale(1.5);
+    color: #2ab1ce;
 }

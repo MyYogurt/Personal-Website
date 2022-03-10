@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Me</title>
+</head>
+<body>
+  <form action="#" onsubmit="sendInput(); return false" id="contactForm">
+    <body>Contact Me! All submissions are encrypted with PGP.</body>
+    <table class="gray_background" style="border: 1px solid black;">
+      <tr>
+        <th><label for="userName">Name: </label></th>
+        <th><input type="text" id="userName" required></th>
+      </tr>
+      <tr>
+        <th><label for="returnEmail">Return email: </label></th>
+        <th><input type="email" id="returnEmail" required></th>
+      </tr>
+      <tr>
+        <th><label for="userMessage">Your Message: </label></th>
+        <th><textarea rows="5" id="userMessage" required></textarea></th>
+      </tr>
+    </table>
+    <input type="submit" value="Submit"/>
+  </form>
+</body>
+</html>

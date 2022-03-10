@@ -1,6 +1,3 @@
-<!--panosmoisiadis.com
-Made by Panos Moisiadis-->
-
 <!DOCTYPE html>
 <html lang="en">
 <script src="js/openpgpmin.js"></script>
@@ -11,57 +8,27 @@ Made by Panos Moisiadis-->
     <link rel="stylesheet" href="styles.css">
     <title>Panos Moisiadis</title>
 </head>
-<h1>Panos Moisiadis</h1>
-<h3>Sophomore Computer Science Major at the University of Pittsburgh</h3>
-<table>
-    <tr>
-        <th>
-            <a target="_blank" href="https://.github.com/MyYogurt">
-                <img alt="Github" src="assets/github-logo.png" width="64" height="64">
-            </a>
-        </th>
-        <th>
-            <a target="_blank" href="https://www.linkedin.com/in/panagiotis-moisiadis-076076165/">
-                <img alt="LinkedIn" src="assets/linkedin-logo.png" width="64" height="64">
-            </a>
-        </th>
-        <th>
-            <a href="mailto:panosmoisiadis@pm.me"><img alt="email" src="assets/email-logo.svg" width="64"
-                                                       height="64"></a>
-        </th>
-    </tr>
-</table>
-<br>
-<div class="iframe-container">
-    <iframe src="assets/Resume.pdf"></iframe>
-</div>
-<a target="_blank" href="assets/Resume.pdf">Open resume in new tab</a>
-<br>
-<form action="#" onsubmit="sendInput(); return false" id="contactForm">
-    <body>Contact Me! All submissions are encrypted with PGP.</body>
-    <table class="gray_background" style="border: 1px solid black;">
-        <tr>
-            <th><label for="userName">Name: </label></th>
-            <th><input type="text" id="userName" required></th>
-        </tr>
-        <tr>
-            <th><label for="returnEmail">Return email: </label></th>
-            <th><input type="email" id="returnEmail" required></th>
-        </tr>
-        <tr>
-            <th><label for="userMessage">Your Message: </label></th>
-            <th><textarea rows="5" id="userMessage" required></textarea></th>
-        </tr>
-    </table>
-    <input type="submit" value="Submit"/>
-</form>
-<body>My public key can be found <a href="public-key/index.html">here</a>.</body>
-<br>
-<body>You can check out the JavaDoc for the backend of this website <a target="_blank"
-                                                                       href="https://panosmoisiadis.com/docs/index.html">here</a>.
-</body>
-<br>
-<body>The backend of this website uses Apache to serve static content as well as serve as a reverse proxy for Spring
-Boot microservices.
-</body>
+<html lang="en">
+    <body>
+        <div class="card">
+            <div class="banner">
+                <div class="avatar"></div>
+            </div>
+            <h3>Panos Moisiadis</h3>
+            <a href="assets/Resume.pdf" target="_blank">Resume</a>
+            <a href="public-key/index.html">OpenPGP Public Key</a>
+            <a href="contact-form/index.html">Contact Form</a>
+            <ul>
+                <a href="mailto:panosmoisiadis@pm.me">
+                    <img alt="email" src="assets/email-logo.svg" width="16" height="16">
+                </a>
+                <a href="https://www.linkedin.com/in/panagiotis-moisiadis-076076165/" target="_blank">
+                    <img alt="LinkedIn" src="assets/linkedin-logo.png" width="16" height="16">
+                </a>
+                <a href="https://github.com/MyYogurt/" target="_blank">
+                    <img alt="GitHub" src="assets/github-logo.svg" width="16" height="16">
+                </a>
+            </ul>
+        </div>
+    </body>
 </html>
