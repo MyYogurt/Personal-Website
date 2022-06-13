@@ -1,7 +1,10 @@
 package org.moisiadis.controller;
 
+import org.moisiadis.SMTPCredentials;
 import org.moisiadis.service.EmailService;
 import org.moisiadis.service.IPService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,38 +22,43 @@ import java.util.Properties;
 
 @RestController
 public class EmailController {
+	private final Logger logger = LoggerFactory.getLogger(EmailController.class);
 
-    @PostMapping("/formsubmission")
-    public ResponseEntity<Object> sendEmail(@RequestBody String messageBody, HttpServletRequest request) {
-        String ipAddress = request.getRemoteAddr();
-        if (IPService.contains(ipAddress)) {
-            return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
-        }
-        IPService.add(ipAddress);
-        Properties properties = System.getProperties();
-        properties.put("mail.transport.protocol", "smtp");
-        properties.put("mail.smtp.portN", 587);
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.auth", "true");
+	@PostMapping("/form-submission")
+	public ResponseEntity<?> sendEmail(@RequestBody String messageBody, HttpServletRequest request) {
+		final String ipAddress = request.getRemoteAddr();
+		if (IPService.contains(ipAddress)) {
+			return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
+		}
+		IPService.add(ipAddress);
 
-        Session session = Session.getDefaultInstance(properties);
+		logger.info("New message from: " + ipAddress);
 
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("noreply@panosmoisiadis.com"));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress("panosmoisiadis@pm.me"));
-            message.setSubject("New Contact Form Submission");
-            message.setText(messageBody);
+		final Properties properties = System.getProperties();
+		properties.put("mail.transport.protocol", "smtp");
+		properties.put("mail.smtp.port", 587);
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.auth", "true");
 
-            Transport transport = session.getTransport();
-            transport.connect("email-smtp.us-east-2.amazonaws.com", EmailService.getSMTPUsername(), EmailService.getSMTPPassword());
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-            System.out.println("Message sent successfully");
-        } catch (MessagingException messagingException) {
-            messagingException.printStackTrace();
-            System.exit(1);
-        }
-        return null;
-    }
+		final Session session = Session.getDefaultInstance(properties);
+
+		try {
+			final MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("noreply@panosmoisiadis.com"));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress("panosmoisiadis@pm.me"));
+			message.setSubject("New Contact Form Submission");
+			message.setText(messageBody);
+
+			final Transport transport = session.getTransport();
+			final SMTPCredentials credentials = EmailService.getCredentials();
+			transport.connect("email-smtp.us-east-2.amazonaws.com", credentials.SMTPUsername(), credentials.SMTPPassword());
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+			logger.info("Message sent successfully");
+		} catch (MessagingException messagingException) {
+			logger.error("Error sending message", messagingException);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+	}
 }
