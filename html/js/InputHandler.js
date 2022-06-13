@@ -74,12 +74,12 @@ JFXgqhvUzf/KWXZGmGXhV9Lb/f4LgSPC5pRc7JOmdWCf06otm/kvDAZOjNBu
     }
 
     let formSubmissionRequest = new XMLHttpRequest();
-    let formURL = (www) ? "https://www.panosmoisiadis.com/api/formsubmission/" : "https://panosmoisiadis.com/api/formsubmission/";
+    let formURL = (www) ? "https://www.panosmoisiadis.com/api/form-submission/" : "https://panosmoisiadis.com/api/form-submission/";
     formSubmissionRequest.overrideMimeType("text/plain");
     formSubmissionRequest.open("POST", formURL);
     formSubmissionRequest.onreadystatechange = function() {
         if (formSubmissionRequest.readyState === 4) {
-            if (formSubmissionRequest.status === 200) {
+            if (formSubmissionRequest.status === 200 || formSubmissionRequest.status === 202) {
                 document.getElementById("userName").value = "";
                 document.getElementById("returnEmail").value = "";
                 document.getElementById("userMessage").value = "";
