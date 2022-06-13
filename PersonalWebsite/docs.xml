@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PersonalWebsite</name>
+    </assembly>
+    <members>
+        <member name="T:PersonalWebsite.Controllers.Api">
+            <summary>
+            Main API Controller
+            </summary>
+        </member>
+        <member name="F:PersonalWebsite.Controllers.Api.BlockTime">
+            <summary>
+            How often an email can be sent when requested by the same IP address
+            </summary>
+        </member>
+        <member name="F:PersonalWebsite.Controllers.Api.IpSet">
+            <summary>
+            Set containing Ip addresses that have sent messages recently
+            </summary>
+        </member>
+        <member name="F:PersonalWebsite.Controllers.Api._smtpUsername">
+            <summary>
+            Credentials for SMTP server
+            </summary>
+        </member>
+        <member name="F:PersonalWebsite.Controllers.Api._smtpPassword">
+            <summary>
+            Credentials for SMTP server
+            </summary>
+        </member>
+        <member name="P:PersonalWebsite.Controllers.Api.SmtpUsername">
+            <summary>
+            Set the SMTP Username
+            </summary>
+        </member>
+        <member name="P:PersonalWebsite.Controllers.Api.SmtpPassword">
+            <summary>
+            Set the SMTP Password
+            </summary>
+        </member>
+        <member name="M:PersonalWebsite.Controllers.Api.#ctor(Microsoft.Extensions.Logging.ILogger{PersonalWebsite.Controllers.Api})">
+            <summary>
+            Create API controller with a logger
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:PersonalWebsite.Controllers.Api.GetBlockTime">
+            <summary>
+            How long a user must wait to send another email in milliseconds
+            </summary>
+            <returns>How long a user must wait to send another email in milliseconds</returns>
+        </member>
+        <member name="M:PersonalWebsite.Controllers.Api.SendEmail(System.String)">
+            <summary>
+            Sends email from contact form
+            </summary>
+            <param name="messageBody">Email message body</param>
+            <response code="202">Successfully Sent</response>
+            <response code="400">Bad request</response>
+            <response code="429">Too many requests sent</response>
+            <response code="500">Server error sending message</response>
+        </member>
+    </members>
+</doc>
