@@ -50,31 +50,8 @@ JFXgqhvUzf/KWXZGmGXhV9Lb/f4LgSPC5pRc7JOmdWCf06otm/kvDAZOjNBu
         encryptionKeys: publicKey
     });
 
-    const www = document.URL.includes("www");
-
-    let blockTime;
-    let blockTimeRequest = new XMLHttpRequest();
-    let blockURL = (www) ? "https://www.panosmoisiadis.com/api/block-time" : "https://panosmoisiadis.com/api/block-time";
-    blockTimeRequest.overrideMimeType("text/plain");
-    blockTimeRequest.open("GET", blockURL);
-    blockTimeRequest.onreadystatechange = function() {
-        if (blockTimeRequest.readyState === 4) {
-            if (blockTimeRequest.status === 200) {
-                blockTime = Number(blockTimeRequest.responseText)/60000;
-            } else {
-                alert("Error sending message");
-            }
-        }
-    }
-    blockTimeRequest.send();
-
-    if (blockTime) {
-        alert("Error sending message");
-        return;
-    }
-
     let formSubmissionRequest = new XMLHttpRequest();
-    let formURL = (www) ? "https://www.panosmoisiadis.com/api/form-submission/" : "https://panosmoisiadis.com/api/form-submission/";
+    let formURL = "https://ch0ygho9b8.execute-api.us-east-1.amazonaws.com/v1/form-submission";
     formSubmissionRequest.overrideMimeType("text/plain");
     formSubmissionRequest.open("POST", formURL);
     formSubmissionRequest.onreadystatechange = function() {
