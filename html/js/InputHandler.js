@@ -51,7 +51,7 @@ JFXgqhvUzf/KWXZGmGXhV9Lb/f4LgSPC5pRc7JOmdWCf06otm/kvDAZOjNBu
     });
 
     let formSubmissionRequest = new XMLHttpRequest();
-    let formURL = "https://ch0ygho9b8.execute-api.us-east-1.amazonaws.com/v1/form-submission";
+    let formURL = "https://ch0ygho9b8.execute-api.us-east-1.amazonaws.com/default/form-submission";
     formSubmissionRequest.overrideMimeType("text/plain");
     formSubmissionRequest.open("POST", formURL);
     formSubmissionRequest.onreadystatechange = function() {
