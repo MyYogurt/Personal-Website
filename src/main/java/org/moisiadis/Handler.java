@@ -13,14 +13,13 @@ import com.amazonaws.services.simpleemail.model.*;
 public class Handler implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
     @Override
     public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent apiGatewayV2HTTPEvent, Context context) {
-        LambdaLogger logger = context.getLogger();
-        APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
+        final LambdaLogger logger = context.getLogger();
+        final APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
+        final String messageBody = apiGatewayV2HTTPEvent.getBody();
 
-        String messageBody = apiGatewayV2HTTPEvent.getBody();
-        logger.log(messageBody);
         try {
-            AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
-            SendEmailRequest request = new SendEmailRequest().withDestination(new Destination().withToAddresses("panosmoisiadis@pm.me"))
+            final AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
+            final SendEmailRequest request = new SendEmailRequest().withDestination(new Destination().withToAddresses("panosmoisiadis@pm.me"))
                     .withMessage(new Message()
                             .withBody(new Body()
                                     .withText(new Content().withCharset("UTF-8")
