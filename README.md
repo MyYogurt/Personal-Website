@@ -1,7 +1,6 @@
 # Personal-Website
-Implementation of Apache web server serving static content with reverse proxy for Spring Boot microservice. You can visit it at https://panosmoisiadis.com
 
-You can view the JavaDoc of the backend at https://panosmoisiadis.com/docs
+My personal website featuring an end-to-end encrypted contact form using AWS Lambda and SES.
 
 ## Security
 
